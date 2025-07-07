@@ -1,0 +1,95 @@
+<% layout('/layouts/boilerplate.ejs') -%>
+<%= success %>
+
+<style>
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter {
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 2rem;
+    opacity: 0.7;
+  }
+
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .filter p {
+    font-size: 0.8em;
+  }
+
+  .tax-info {
+    display: none;
+    color: green;
+  }
+
+  .tax-toggle{
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3.2rem;
+    padding: 1rem;
+    margin-left:2rem ;
+    display: flex;
+    align-items: center;
+
+  }
+</style>
+
+<!-- Filters -->
+<div id="filters">
+  <div class="filter"><div><i class="fa-solid fa-fire"></i></div><p>Trending</p></div>
+  <div class="filter"><div><i class="fa-solid fa-bed"></i></div><p>Rooms</p></div>
+  <div class="filter"><div><i class="fa-solid fa-mountain-city"></i></div><p>Iconic Cities</p></div>
+  <div class="filter"><div><i class="fa-solid fa-mountain"></i></div><p>Mountain</p></div>
+  <div class="filter"><div><i class="fa-solid fa-water-ladder"></i></div><p>Amazing Pool</p></div>
+  <div class="filter"><div><i class="fa-solid fa-cloud-arrow-up"></i></div><p>Cloud</p></div>
+  <div class="filter"><div><i class="fa-regular fa-house-flag"></i></div><p>House-Flag</p></div>
+  <div class="filter"><div><i class="fa-solid fa-comment"></i></div><p>Comment</p></div>
+  <div class="filter"><div><i class="fa-solid fa-phone"></i></div><p>Phone</p></div>
+ <div class="filter"><div><i class="fa-solid fa-landmark-dome"></i></div><p>Landmark</p></div>
+  <div class="filter"><div><i class="fa-solid fa-igloo"></i></div><p>Igloo</p></div>
+  <!--  Tax Toggle Switch -->
+  <div class="tax-toggle ms-3 mt-2">
+    <div class="form-check-reverse form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+      <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+    </div>
+  </div>
+</div>
+
+<!-- Listings -->
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-3 mt-3">
+  <% for(let listing of allListings) { %>
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+      <div class="card col listing-card">
+        <img src="<%= listing.image.url %>" class="card-img-top" style="height: 20rem;" alt="listing image" />
+        <div class="card-img-overlay"></div>
+        <div class="card-body">
+          <b><p class="card-text"><%= listing.title %></p></b>
+          <p class="card-text">&#8377;<%= listing.price.toLocaleString("en-IN") %>/night</p>
+          <i class="tax-info">+18% GST</i>
+        </div>
+      </div>
+    </a>
+  <% } %>
+</div>
+
+<!--  Script for toggling tax info -->
+<script>
+  let taxSwitch = document.getElementById("switchCheckDefault");
+
+  taxSwitch.addEventListener("click", () => {
+    let taxInfo = document.getElementsByClassName("tax-info");
+    let show = taxSwitch.checked;
+
+    for (let info of taxInfo) {
+      info.style.display = show ? "inline" : "none";
+    }
+  });
+</script>
